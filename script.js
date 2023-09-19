@@ -1,114 +1,84 @@
-const container= document.getElementById('container')
-const eight =document.getElementById('eight')
-const  sixteen=document.getElementById('sixteen')
-const  thirtyTwo=document.getElementById('thirty-two')
-const  sixtyFour=document.getElementById('sixty-four')
-const eighty =document.getElementById('eighty')
-const crearCuadriculas= (e)=>{
-    container.style.border = "none";
-    valor=Number(e.target.innerHTML)
-    console.log(valor*valor)
-    container.innerHTML = '';
-    for (let i = 0; i < (valor*valor) ; i++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell', `num${i+1}`);
-        container.appendChild(cell);
-        cell.style.flex = `0 0 calc(100% / ${valor})`
-        cell.addEventListener('mouseover',()=> {
-            console.log('funciono')
-            const red = Math.floor(Math.random() * 256);
-            const green = Math.floor(Math.random() * 256);
-            const blue = Math.floor(Math.random() * 256);
-            cell.style.background = `rgb(${red}, ${green}, ${blue})`;
-        })
-        cell.addEventListener('mouseout',()=>{
-            cell.style.background = ''
-        })
+const colorPicker= document.getElementById('colorPicker')
+const size= document.getElementById('size')
+const clear = document.getElementById('clearBtn')
+const randomColorMode= document.getElementById('randomBtn')
+const eraser=document.getElementById('eraserBtn')
+const grid = document.getElementById('grid')
+const colorMode = document.getElementById('colorBtn')
+const sizeValue = document.getElementById('sizeValue')
+let modeDefault='colorMode'
+let isMove=false
+function getColor() {
+    return colorPicker.value;
+  }
+function erase() {
+    return '#ffffff'
+}
+const colorRandom= ()=>{
+    let red=Math.floor(Math.random() * 256)
+    let green=Math.floor(Math.random() * 256)
+    let blue=Math.floor(Math.random() * 256)
+
+    return colorRGB= `rgb(${red},${green},${blue})`
+}
+function choiceMode(mode) {
+    if (mode==='colorMode') {
+        console.log('color')
+        return getColor()
     } 
+    else if (mode==='randomColor') {
+        console.log('random')
+        
+        return colorRandom()
+    }
+    else return erase()
 }
 
-eight.addEventListener('click', crearCuadriculas)/*
-sixteen.addEventListener('click',()=>{
-    valor=16
-    numCell= valor*valor
-    container.innerHTML = '';
-    for (let i = 0; i < numCell; i++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell', `num${i+1}`);
-        container.appendChild(cell);
-        cell.style.flex = `0 0 calc(100% / ${valor})`
-        cell.addEventListener('mouseover',()=>{
-            const red = Math.floor(Math.random() * 256);
-  const green = Math.floor(Math.random() * 256);
-  const blue = Math.floor(Math.random() * 256);
-  cell.style.background = `rgb(${red}, ${green}, ${blue})`;
-        })
-        cell.addEventListener('mouseout',()=>{
-            cell.style.background = ''
-        })
-    } 
+colorMode.addEventListener('click', ()=>{
+    modeDefault="colorMode"
 })
-thirtyTwo.addEventListener('click',()=>{
-    valor=32
-    numCell= valor*valor
-    container.innerHTML = '';
-    for (let i = 0; i < numCell; i++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell', `num${i+1}`);
-        container.appendChild(cell);
-        cell.style.flex = `0 0 calc(100% / ${valor})`
-        cell.addEventListener('mouseover',()=>{
-            const red = Math.floor(Math.random() * 256);
-  const green = Math.floor(Math.random() * 256);
-  const blue = Math.floor(Math.random() * 256);
-  cell.style.background = `rgb(${red}, ${green}, ${blue})`;
-        })
-        cell.addEventListener('mouseout',()=>{
-            cell.style.background = ''
-        })
-    } 
+randomColorMode.addEventListener('click',()=>{
+    modeDefault="randomColor"
 })
-sixtyFour.addEventListener('click',()=>{
-    valor=64
-    numCell= valor*valor
-    container.innerHTML = '';
-    for (let i = 0; i < numCell; i++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell', `num${i+1}`);
-        container.appendChild(cell);
-        cell.style.flex = `0 0 calc(100% / ${valor})`
-        cell.addEventListener('mouseover',()=>{
-            const red = Math.floor(Math.random() * 256);
-  const green = Math.floor(Math.random() * 256);
-  const blue = Math.floor(Math.random() * 256);
-  cell.style.background = `rgb(${red}, ${green}, ${blue})`;
-        })
-        cell.addEventListener('mouseout',()=>{
-            cell.style.background = ''
-        })
-    } 
+eraser.addEventListener('click',()=>{
+    modeDefault="eraser"
 })
-eighty.addEventListener('click',()=>{
-    valor=80
-    numCell= valor*valor
-    container.innerHTML = '';
-    for (let i = 0; i < numCell; i++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell', `num${i+1}`);
-        container.appendChild(cell);
-        cell.style.flex = `0 0 calc(100% / ${valor})`
-        cell.addEventListener('mouseover',()=>{
-            const red = Math.floor(Math.random() * 256);
-  const green = Math.floor(Math.random() * 256);
-  const blue = Math.floor(Math.random() * 256);
-  cell.style.background = `rgb(${red}, ${green}, ${blue})`;
-        })
-        cell.addEventListener('mouseout',()=>{
-            cell.style.background = ''
-        })
-    } 
-*/
+function updateGrid(){
+    sizeValue.innerHTML= `${size.value} X ${size.value}`
+    const valor = parseInt(size.value);
+    grid.innerHTML='';
+    for (let i = 0; i < valor*valor; i++) {
+        const cell=document.createElement('div');
+        grid.appendChild(cell)
+        cell.classList.add('grid-cell');
+    }
+    const cellSize = 540 / valor;
+    grid.style.gridTemplateColumns = `repeat(${valor}, ${cellSize}px)`;
+    grid.style.gridTemplateRows = `repeat(${valor}, ${cellSize}px)`;
+    
+    const cells = document.querySelectorAll('.grid-cell');
+    cells.forEach((cell) => {
+        
+cell.style.userSelect = 'none';
+      cell.addEventListener('mousedown', (cell) => {
+        isMove=true
+        cell.target.style.backgroundColor = choiceMode(modeDefault);
+      });
+      cell.addEventListener('mouseover',(cell)=>{
+        if (isMove ) {
+        cell.target.style.backgroundColor = choiceMode(modeDefault);
+            
+        }
+      })
+      cell.addEventListener('mouseup',()=>{
+        isMove=false
+      })
+    });
+    grid.addEventListener('mouseleave', () => {
+      isMove = false;
+    });
+  }
+  
 
-
-
-
+size.addEventListener('input', updateGrid);
+updateGrid()

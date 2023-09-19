@@ -6,20 +6,19 @@ body{
   height: 100vh;
 
 }
-#container{
-height: 90%;
-display: flex;
-flex-wrap: wrap;
-width: 50%;
-border: 1px solid rgb(255, 0, 0);
-margin-left: 10px;
+.grid{
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  height: 10%;
+  width: 170px;
 }
-
-.cell{
-  border: 1px solid black;
-  
-  box-sizing: border-box;
+input{
+  height: 70px;
+  width: 70px;
 }
-button{
-  padding: 50px;
+.grid-cell{
+  background-color: lightblue;
+  border: 1px solid red;
+  padding: 4px;
+ 
 }
