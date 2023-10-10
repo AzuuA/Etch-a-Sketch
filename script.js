@@ -48,9 +48,10 @@ function updateGrid(){
     const valor = parseInt(size.value);
     grid.innerHTML='';
     for (let i = 0; i < valor*valor; i++) {
-        const cell=document.createElement('div');
-        grid.appendChild(cell)
-        cell.classList.add('grid-cell');
+      const cell=document.createElement('div');
+      grid.appendChild(cell)
+      
+      cell.classList.add('grid-cell');
     }
     const cellSize = 540 / valor;
     grid.style.gridTemplateColumns = `repeat(${valor}, ${cellSize}px)`;
@@ -73,12 +74,15 @@ cell.style.userSelect = 'none';
       cell.addEventListener('mouseup',()=>{
         isMove=false
       })
+      clear.addEventListener('click',()=>{
+        cell.style.backgroundColor = 'white';
+
+      })
     });
     grid.addEventListener('mouseleave', () => {
       isMove = false;
     });
   }
   
-
 size.addEventListener('input', updateGrid);
 updateGrid()

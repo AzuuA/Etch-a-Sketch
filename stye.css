@@ -4,21 +4,23 @@
 }
 body{
   height: 100vh;
+  background-color: lightblue;
 
 }
 .grid{
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   height: 10%;
-  width: 170px;
+  width: 540px;
+border: 1px solid black;
+margin: auto;
 }
 input{
   height: 70px;
   width: 70px;
 }
 .grid-cell{
-  background-color: lightblue;
-  border: 1px solid red;
+  background-color: white;
   padding: 4px;
  
 }
